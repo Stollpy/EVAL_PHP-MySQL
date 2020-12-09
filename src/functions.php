@@ -1,6 +1,10 @@
 <?php
 
+
+// Dépendance
 require '../config.php';
+
+
 
 /********************************
  **** CREATION CONNEXION PDO ****
@@ -41,6 +45,7 @@ function prepareAndExecuteQuery(string $sql, array $criteria = []): PDOStatement
     return $query;
 }
 
+
 /***************************************
  **** RESULTAT REQUETE SQL FETCHALL ****
  ***************************************/
@@ -61,6 +66,8 @@ function selectOne(string $sql, array $criteria = [])
 
     return $query->fetch();
 }
+
+
 
 /***********************
  **** MESSAGE FLASH ****
@@ -84,7 +91,6 @@ function InitFlashBag()
 
 
 
-// Ajouter un message en session
 function addFlashMessage(string $message){
 
     InitFlashBag();
@@ -122,6 +128,9 @@ function FecthAllFlashMessages() : array {
     prepareAndExecuteQuery($sql, [$title, $adress, $description, $ville, $photo, $cp, $prix, $surface, $type]);
  }
 
+
+
+// Validation d'une annonce 
  function validformAnnonce(string $title, string $adress, string $ville, $cp, float $prix, string $surface, int $type)
  {
      $error = [];
@@ -178,7 +187,9 @@ function getAnnonceById(int $id)
 }
 
 
-// formatage datetime
+/************************
+ **** FORMATAGE DATE ****
+ ************************/
 function format_date($date)
 {
     $objDate = new DateTime($date);
@@ -200,7 +211,9 @@ function insertComment(string $content, int $productId)
 }
 
 
-// Affichage Commentaire en fonction ID
+/**********************************************
+ **** AFFICHAGE COMMENTAIRE EN FONCTION ID ****
+ **********************************************/
 
 function getCommentsByAnnonceId(int $annonceId)
 {
@@ -210,6 +223,159 @@ function getCommentsByAnnonceId(int $annonceId)
              ORDER BY createdAt DESC';
 
     return selectAll($sql, [$annonceId]);
+}
+
+/*****************************************
+**** VALIDATION / VERIFICATION EMAIL *****
+******************************************/
+function ValidEmail(string $email, string $password){
+
+    if(!isset($_POST['email']) || empty($_POST['email'])){
+
+        return "";
+    }
+
+    if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+        return "";
+    }
+
+
+    if(EmailExists($email)){
+        return "";
+    }
+
+    // regarde le minimun de caractère
+    if(mb_strlen($password) < 5){
+        return "";
+    }
+
+    return null;
+
+}
+
+/********************************************
+***** DETERMINE SI L ADRESS EXISTE DEJA *****
+*********************************************/
+function EmailExists(string $email){
+
+
+    // $email = $_POST['email'];
+
+    $sql = 'SELECT email, password, firstname, lastname, id
+    FROM users
+    WHERE email = ?';
+
+    return selectOne( $sql,[$email]);
+
+}
+
+
+
+/****************************
+ **** CREATION DE COMPTE ****
+ ****************************/
+
+//  Insérer un nouveau utilisateur
+function insertUser( string $Last_Name, string $First_Name, string $email, string $password)
+{
+    $sql = 'INSERT INTO users (lastname, firstname, email, password)
+            VALUES (?, ?, ?, ?)';
+
+    prepareAndExecuteQuery($sql, [$Last_Name, $First_Name, $email, $password]);
+}
+
+
+/*************************************************************
+***** DETERMINE SI LE FORMULAIRE DE CONNEXION EST VALIDE *****
+**************************************************************/
+function validateLoginForm(string $email, string $password): array {
+
+    $error = [];
+
+    if(!$email){
+
+        $error[] = '!';
+    }
+
+    if(!$password){
+        $error[] = '!';
+    }
+
+    return $error;
+}
+
+/*******************************
+ **** CONNEXION UTILISATEUR ****
+********************************/
+
+
+function verifyPassword(array $user, $password){
+    return $user['password'] == $password;
+}
+
+
+
+function authentificate(string $email, string $password){
+
+        $user = EmailExists($email);
+        if($user){
+            if(verifyPassword($user, $password)){
+                return $user;
+            }else{
+                return '!';
+            }
+        }else{
+            return '!';
+        }
+}
+
+
+// Détermine si l'utilisateur est connectez 
+function IsAuthentificated(): bool {
+
+    initSession();
+
+    return array_key_exists('user', $_SESSION) && isset($_SESSION['user']);
+
+}
+
+
+/**************************************
+ **** DECONNEXION DE L'UTILISATEUR ****
+ **************************************/
+function logout(){
+
+    if(IsAuthentificated()){
+
+        session_destroy();
+    }
+}
+
+
+
+
+
+/***********************************
+ **** INITIALISATION DE SESSION ****
+ ***********************************/
+
+function initSession(){
+    
+    if(session_status() === PHP_SESSION_NONE){
+        session_start();
+    }
+}
+
+function userSessionRegister(int $id, string $firstname, string $lastname, string $email){
+    
+    initSession();
+    
+    $_SESSION['user'] = [
+        'id' => $id,
+        'firstname' => $firstname,
+        'lastname' => $lastname,
+        'email' => $email
+    ];
 }
 
 

@@ -41,11 +41,24 @@
             <a class="nav-link" href="add_form_logement.php">Louez/Vendez</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Services</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="#">Contact</a>
           </li>
+
+        <?php if (!IsAuthentificated()): ?>
+            <!-- Utilisateur non conntecter -->
+            <li class="nav-item">
+              <a class="nav-link" href="create_account.php" class="btn btn-primary">INSCRIPTION</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="login.php" class="btn btn-primary">CONNEXION</a>
+            </li>
+          <?php else: ?>
+            <!-- Utilisateur Connectez -->
+            <li class="nav-item">
+              <a class="nav-link" href="logout.php" class="btn btn-primary">DECONNEXION</a>
+            </li>
+          <?php endif; ?>
+          
         </ul>
       </div>
     </div>

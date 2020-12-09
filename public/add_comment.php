@@ -5,7 +5,6 @@ require '../src/functions.php';
 
 $content = strip_tags($_POST['content']);
 $productId = intval($_POST['annonce-id']);
-//  $user_id = getUserID();
 
 // Insertion du commentaire dans la table comments
 insertComment($content, $productId);

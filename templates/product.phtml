@@ -1,75 +1,76 @@
 <div class="container mt-3">
 
-<?php if(!empty($flashMessages)) :?>
+  <?php if(!empty($flashMessages)) :?>
 
-<?php foreach ($flashMessages as $Message) : ?>
-    <p class="alert alert-success"><?=$Message;?></p>
-<?php endforeach; ?>
+  <?php foreach ($flashMessages as $Message) : ?>
+      <p class="alert alert-success"><?=$Message;?></p>
+  <?php endforeach; ?>
 
-<?php endif; ?>
+  <?php endif; ?>
 
-<div class="row">
+  <div class="row">
 
-  <div class="col-lg-3">
-    <h1 class="my-4">Immobilier</h1>
-  </div>
-  <!-- /.col-lg-3 -->
-
-  <div class="col-lg-9">
-
-    <div class="card mt-4">
-      <img class="card-img-top img-fluid w-75" src="./images/<?=$annonce['photo'];?>.jpg" alt="Product">
-      <div class="card-body">
-        <h3 class="card-title"><?=$annonce['titre'];?></h3>
-        <h4><?=$annonce['prix']?> €</h4>
-        <p class="card-text"><?=$annonce['surface']?>/m2</p>
-        <p class="card-text">Description : </p>
-        <p class="card-text"><?=$annonce['description'];?></p>
-        <p class="card-text"><?=$annonce['adresse'];?>, <?=$annonce['ville'];?>, <?=$annonce['cp'];?></p>
-        <p class="card-text">Mise en ligne le : <?=format_date($annonce['createdAt']);?></p>
-        <span class="text-primary">Type d'annonce : <?=$annonce['name'];?></span>
-      </div>
+    <div class="col-lg-3">
+      <h1 class="my-4">Immobilier</h1>
     </div>
-    <!-- /.card -->
+    <!-- /.col-lg-3 -->
+
+    <div class="col-lg-9">
 
 
-<!-- Commentaire laisser  -->
-    <div class="card card-outline-secondary my-4">
-      <div class="card-header">
-        Annonce Reviews
-      </div>
-      <div class="card-body">
-        <?php if (empty($comments)): ?>
-         <p>Soyez le premier à donner votre avis ! </p>
-        <?php else: ?>
-          <?php foreach ($comments as $comment): ?>
-            <p><?=$comment['content']?></p>
-            <small class="text-muted">Posté le <?=format_date($comment['createdAt']);?></small>
-            <hr>
-          <?php endforeach; ?>
-        <?php endif; ?>
-        <a href="#" class="btn btn-primary">Leave a Review</a>
-      </div>
+        <div class="card mt-4">
+          <img class="card-img-top img-fluid w-75" src="./images/<?=$annonce['photo'];?>.jpg" alt="Product">
+          <div class="card-body">
+              <h3 class="card-title"><?=$annonce['titre'];?></h3>
+              <h4><?=$annonce['prix']?> €</h4>
+              <p class="card-text"><?=$annonce['surface']?>/m2</p>
+              <p class="card-text">Description : </p>
+              <p class="card-text"><?=$annonce['description'];?></p>
+              <p class="card-text"><?=$annonce['adresse'];?>, <?=$annonce['ville'];?>, <?=$annonce['cp'];?></p>
+              <p class="card-text">Mise en ligne le : <?=format_date($annonce['createdAt']);?></p>
+              <span class="text-primary">Type d'annonce : <?=$annonce['name'];?></span>
+          </div>
+        </div>
+        <!-- /.card -->
+
+
+      <!-- Commentaire laisser  -->
+        <div class="card card-outline-secondary my-4">
+          <div class="card-header">
+            Annonce Reviews
+          </div>
+          <div class="card-body">
+            <?php if (empty($comments)): ?>
+            <p>Soyez le premier à donner votre avis ! </p>
+            <?php else: ?>
+              <?php foreach ($comments as $comment): ?>
+                <p><?=$comment['content']?></p>
+                <small class="text-muted">Posté le <?=format_date($comment['createdAt']);?></small>
+                <hr>
+              <?php endforeach; ?>
+            <?php endif; ?>
+            <a href="#" class="btn btn-primary">Leave a Review</a>
+          </div>
+        </div>
+
+        <!-- Formulaire de commentaire -->
+        <form action="add_comment.php" method="POST" class="mb-3">
+            <input type="hidden" name="annonce-id" value="<?=$annonce['id'];?>">
+            <fieldset>
+                <legend>Donnez votre avis !</legend>
+                <div class="form-group">
+                    <label for="content">Votre commentaire</label>
+                    <textarea id="content" name="content" class="form-control"></textarea>
+                </div>
+            </fieldset>
+            <input type="submit" value="Envoyer" class="btn btn-success">        
+        </form>
+        <!-- /.card -->
+
     </div>
-
-    <!-- Formulaire de commentaire -->
-    <form action="add_comment.php" method="POST" class="mb-3">
-        <input type="hidden" name="annonce-id" value="<?=$annonce['id'];?>">
-        <fieldset>
-            <legend>Donnez votre avis !</legend>
-            <div class="form-group">
-                <label for="content">Votre commentaire</label>
-                <textarea id="content" name="content" class="form-control"></textarea>
-            </div>
-        </fieldset>
-        <input type="submit" value="Envoyer" class="btn btn-success">        
-    </form>
-    <!-- /.card -->
+    <!-- /.col-lg-9 -->
 
   </div>
-  <!-- /.col-lg-9 -->
-
-</div>
 
 </div>
 <!-- /.container -->
