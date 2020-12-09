@@ -151,6 +151,19 @@ function FecthAllFlashMessages() : array {
      return $error;
  }
 
+ /***************************
+ **** Liste des annonces ****
+ ****************************/
+ function getAllAnnonce()
+ {
+     $sql ='SELECT logement.id, titre, ville, photo, type, prix, category.name, cp
+     FROM logement
+     INNER JOIN category ON category.id = type';
+
+     return selectAll($sql);
+ }
+
+
 
 /************************
  **** RENDU TEMPLATE ****
