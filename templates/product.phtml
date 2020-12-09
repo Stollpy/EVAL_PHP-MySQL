@@ -35,36 +35,40 @@
 
 
       <!-- Commentaire laisser  -->
-        <div class="card card-outline-secondary my-4">
-          <div class="card-header">
-            Annonce Reviews
+            <div class="card card-outline-secondary my-4">
+            <div class="card-header">
+              Annonce Reviews
+            </div>
+            <div class="card-body">
+              <?php if (empty($comments)): ?>
+              <p>Soyez le premier à donner votre avis ! </p>
+              <?php else: ?>
+                <?php foreach ($comments as $comment): ?>
+                  <p><?=$comment['content']?></p>
+                  <small class="text-muted">Posté le <?=format_date($comment['createdAt']);?></small>
+                  <hr>
+                <?php endforeach; ?>
+              <?php endif; ?>
+              <a href="#" class="btn btn-primary">Leave a Review</a>
+            </div>
           </div>
-          <div class="card-body">
-            <?php if (empty($comments)): ?>
-            <p>Soyez le premier à donner votre avis ! </p>
-            <?php else: ?>
-              <?php foreach ($comments as $comment): ?>
-                <p><?=$comment['content']?></p>
-                <small class="text-muted">Posté le <?=format_date($comment['createdAt']);?></small>
-                <hr>
-              <?php endforeach; ?>
-            <?php endif; ?>
-            <a href="#" class="btn btn-primary">Leave a Review</a>
-          </div>
-        </div>
 
         <!-- Formulaire de commentaire -->
-        <form action="add_comment.php" method="POST" class="mb-3">
-            <input type="hidden" name="annonce-id" value="<?=$annonce['id'];?>">
-            <fieldset>
-                <legend>Donnez votre avis !</legend>
-                <div class="form-group">
-                    <label for="content">Votre commentaire</label>
-                    <textarea id="content" name="content" class="form-control"></textarea>
-                </div>
-            </fieldset>
-            <input type="submit" value="Envoyer" class="btn btn-success">        
-        </form>
+        <?php if(IsAuthentificated()): ?>
+            <form action="add_comment.php" method="POST" class="mb-3">
+                <input type="hidden" name="annonce-id" value="<?=$annonce['id'];?>">
+                <fieldset>
+                    <legend>Donnez votre avis !</legend>
+                    <div class="form-group">
+                        <label for="content">Votre commentaire</label>
+                        <textarea id="content" name="content" class="form-control"></textarea>
+                    </div>
+                </fieldset>
+                <input type="submit" value="Envoyer" class="btn btn-success">        
+            </form>
+        <?php else: ?>
+            <p><a href="login.php">Connectez-vous</a> pour laisser vous aussi votre commentaire !</p>
+        <?php endif; ?>
         <!-- /.card -->
 
     </div>
