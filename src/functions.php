@@ -158,10 +158,33 @@ function FecthAllFlashMessages() : array {
  {
      $sql ='SELECT logement.id, titre, ville, photo, type, prix, category.name, cp
      FROM logement
-     INNER JOIN category ON category.id = type';
+     INNER JOIN category ON category.id = type
+     ORDER BY createdAt DESC';
 
      return selectAll($sql);
  }
+
+  /******************************
+ **** Annonce en fonction ID ****
+ ********************************/
+function getAnnonceById(int $id)
+{
+    $sql ='SELECT logement.id, titre, ville, photo, type, prix, category.name, cp, description, createdAt, adresse
+    FROM logement
+    INNER JOIN category ON category.id = type
+    WHERE logement.id = ? ';
+
+    return selectOne($sql, [$id]);
+}
+
+
+// formatage datetime
+function format_date($date)
+{
+    $objDate = new DateTime($date);
+    return $objDate->format('d/m/Y');
+}
+
 
 
 

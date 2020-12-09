@@ -2,4 +2,16 @@
 
 require '../src/functions.php';
 
-render('product',[]);
+if (!isset($_GET['id'])) {
+    echo 'Error : no valid product id';
+    exit;
+}
+
+$annonceId = intval($_GET['id']);
+
+$annonce = getAnnonceById($annonceId);
+
+
+render('product',[
+    'annonce' => $annonce
+]);
