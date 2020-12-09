@@ -4,7 +4,7 @@ require '../src/functions.php';
 if(!empty($_POST)){
 
     $email = $_POST['email'];
-    $password = hash(sha256, $_POST['password']);
+    $password = $_POST['password'];
 
     $error = validateLoginForm($email, $password);
 
@@ -28,10 +28,10 @@ if(!empty($_POST)){
 
         }else{
 
-            $flashMessages = addFlashMessage('Votre E-mail ou mot de passe est incorrect');
+            $flashMessages = addFlashMessage('Votre E-mail ou mot de passe est incorrect !');
         }
     }else{
-        $flashMessages = addFlashMessage('Tout les champs sont obligatoire');
+        $flashMessages = addFlashMessage('Tout les champs doivents être remplis !');
     }
 }
 

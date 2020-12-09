@@ -147,11 +147,11 @@ function FecthAllFlashMessages() : array {
      if(!$cp){
          $error[] = 'champ code postal obligatoire';
      }
-     if(!$prix){
-         $error[] = 'champ prix obligatoire';
+     if(!is_numeric($prix)){
+         $error[] = 'champ prix obligatoire ou incorrect';
      }
-     if(!$surface){
-         $error[] = 'champ surface obligatoire';
+     if(!is_numeric($surface)){
+         $error[] = 'champ surface obligatoire ou incorrect';
      }
      if(!$type){
          $error = 'champ type obligatoire';
@@ -253,9 +253,9 @@ function ValidEmail(string $email, string $password){
 
 }
 
-/********************************************
-***** DETERMINE SI L ADRESS EXISTE DEJA *****
-*********************************************/
+/***************************************************
+***** DETERMINE SI L'ADRESSe EMAIL EXISTE DEJA *****
+****************************************************/
 function EmailExists(string $email){
 
 
@@ -310,7 +310,7 @@ function validateLoginForm(string $email, string $password): array {
 
 
 function verifyPassword(array $user, $password){
-    return $user['password'] == $password;
+    return password_verify($password, $user['password']);
 }
 
 

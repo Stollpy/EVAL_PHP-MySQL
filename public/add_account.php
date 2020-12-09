@@ -8,7 +8,7 @@ if(!empty($_POST)){
     $Last_Name = htmlspecialchars($_POST['lastname']);
     $First_Name = htmlspecialchars($_POST['firstname']);
     $email = $_POST['email'];
-    $password = hash(sha256, $_POST['password']);
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
      $error = ValidEmail($email, $password);
 
