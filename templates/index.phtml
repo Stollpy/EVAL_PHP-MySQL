@@ -1,3 +1,11 @@
+<?php if(!empty($flashMessages)) :?>
+
+<?php foreach ($flashMessages as $Message) : ?>
+    <p class="alert alert-success"><?=$Message;?></p>
+<?php endforeach; ?>
+
+<?php endif; ?>
+
 <div class="container">
 
     <div class="row">

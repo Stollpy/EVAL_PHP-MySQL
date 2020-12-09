@@ -62,7 +62,94 @@ function selectOne(string $sql, array $criteria = [])
     return $query->fetch();
 }
 
+/***********************
+ **** MESSAGE FLASH ****
+ ***********************/
 
+function InitFlashBag()
+{
+
+    if(session_status() === PHP_SESSION_NONE){
+
+
+        session_start();
+    }
+
+    if(!array_key_exists('flashbag', $_SESSION) || !isset($_SESSION['flashbag'])) {
+
+        $_SESSION['flashbag'] = [];
+    }
+
+}
+
+
+
+// Ajouter un message en session
+function addFlashMessage(string $message){
+
+    InitFlashBag();
+
+    array_push($_SESSION['flashbag'], $message);
+
+}
+
+
+function FecthAllFlashMessages() : array {
+
+    InitFlashBag();
+
+    
+    $flashMessages = $_SESSION['flashbag'];
+
+
+    $_SESSION['flashbag'] = [];
+
+
+    return $flashMessages;
+
+}
+
+
+/******************************
+ **** Insérez des annonces ****
+ ******************************/
+    
+ function insertAnnonce(string $title, string $adress, string $description, string $ville, string $photo, $cp, float $prix, float $surface, int $type) 
+ {
+    $sql = "INSERT INTO logement (titre, adresse, description, ville, photo, cp, prix, surface, type)
+    VALUE (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    prepareAndExecuteQuery($sql, [$title, $adress, $description, $ville, $photo, $cp, $prix, $surface, $type]);
+ }
+
+ function validformAnnonce(string $title, string $adress, string $ville, $cp, float $prix, string $surface, int $type)
+ {
+     $error = [];
+
+     if(!$title){
+         $error[] = 'champs title obligatoire!';
+     }
+     if(!$adress){
+         $error[] = 'champ addresse obligatoire';
+     }
+     if(!$ville){
+         $error[] = 'champ ville obligatoire';
+     }
+     if(!$cp){
+         $error[] = 'champ code postal obligatoire';
+     }
+     if(!$prix){
+         $error[] = 'champ prix obligatoire';
+     }
+     if(!$surface){
+         $error[] = 'champ surface obligatoire';
+     }
+     if(!$type){
+         $error = 'champ type obligatoire';
+     }
+
+     return $error;
+ }
 
 
 /************************

@@ -2,6 +2,8 @@
 
 require '../src/functions.php';
 
+$flashMessages = FecthAllFlashMessages();
 
-
-render('index',[]);
+render('index',[
+    'flashMessages' => $flashMessages
+]);
