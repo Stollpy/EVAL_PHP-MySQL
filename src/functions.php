@@ -156,7 +156,7 @@ function FecthAllFlashMessages() : array {
  ****************************/
  function getAllAnnonce()
  {
-     $sql ='SELECT logement.id, titre, ville, photo, type, prix, category.name, cp
+     $sql ='SELECT logement.id, titre, ville, photo, type, prix, category.name, cp, surface
      FROM logement
      INNER JOIN category ON category.id = type
      ORDER BY createdAt DESC';
@@ -169,7 +169,7 @@ function FecthAllFlashMessages() : array {
  ********************************/
 function getAnnonceById(int $id)
 {
-    $sql ='SELECT logement.id, titre, ville, photo, type, prix, category.name, cp, description, createdAt, adresse
+    $sql ='SELECT logement.id, titre, ville, photo, type, prix, category.name, cp, description, createdAt, adresse, surface
     FROM logement
     INNER JOIN category ON category.id = type
     WHERE logement.id = ? ';
@@ -186,6 +186,31 @@ function format_date($date)
 }
 
 
+
+/*******************************
+ **** INSERTION COMMENTAIRE ****
+ *******************************/
+
+function insertComment(string $content, int $productId)
+{
+    $sql = 'INSERT INTO comments (content, createdAt, product_id)
+            VALUES (?, NOW(), ?)';
+
+    prepareAndExecuteQuery($sql, [$content, $productId]);
+}
+
+
+// Affichage Commentaire en fonction ID
+
+function getCommentsByAnnonceId(int $annonceId)
+{
+    $sql = 'SELECT content, createdAt, product_id
+            FROM comments
+            WHERE product_id = ?
+             ORDER BY createdAt DESC';
+
+    return selectAll($sql, [$annonceId]);
+}
 
 
 /************************

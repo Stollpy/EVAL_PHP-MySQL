@@ -1,12 +1,12 @@
-<?php if(!empty($flashMessages)) :?>
+<div class="container mt-4">
 
-<?php foreach ($flashMessages as $Message) : ?>
-    <p class="alert alert-success"><?=$Message;?></p>
-<?php endforeach; ?>
+  <?php if(!empty($flashMessages)) :?>
 
-<?php endif; ?>
+  <?php foreach ($flashMessages as $Message) : ?>
+      <p class="alert alert-success"><?=$Message;?></p>
+  <?php endforeach; ?>
 
-<div class="container">
+  <?php endif; ?>
 
     <div class="row">
 
@@ -55,6 +55,7 @@
                   <a href="product.php?id=<?=$annonce['id']?>"><?=$annonce['titre']?></a>
                 </h4>
                 <h5><?=$annonce['prix']?> €</h5>
+                <p class="card-text"><?=$annonce['surface']?>/m2</p>
                 <p class="card-text"><?=$annonce['name']?></p>
               </div>
               <div class="card-footer">

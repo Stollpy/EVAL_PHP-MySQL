@@ -11,7 +11,13 @@ $annonceId = intval($_GET['id']);
 
 $annonce = getAnnonceById($annonceId);
 
+$flashMessages = FecthAllFlashMessages();
+
+$comments = getCommentsByAnnonceId($annonceId);
+
 
 render('product',[
-    'annonce' => $annonce
+    'annonce' => $annonce,
+    'flashMessages' => $flashMessages,
+    'comments' => $comments
 ]);
